@@ -9,19 +9,19 @@ public class Parser {
     }
     
     public String getInfo(String cmd) throws IOException {
-        String output = "", line;
-        ProcessBuilder builder = new ProcessBuilder(cmd, output);
-        builder.redirectErrorStream(true);
-        Process process = builder.start(); //запуск команды
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream())); //получение результата после запуска
+        String output = "", line, s;
+        Process p;
 
-        while (true) {
-            line = bufferedReader.readLine();
-            if (line != null)
-                output += line ;
-            else
-                break;
-        }
+        System.out.println("command = " + cmd + "\n");
+
+        try {
+            p = Runtime.getRuntime().exec(cmd);
+            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            while ((s = br.readLine()) != null)
+                output += ("\n" + s);
+            p.waitFor();
+            p.destroy();
+        } catch (Exception e) {}
         return output;
     }
 }

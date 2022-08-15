@@ -17,8 +17,10 @@ public class Processor extends Element{
             e.printStackTrace();
         }
         System.out.print("\n" + this.getName() + ": " + this.getValue() + " " + this.getMeasure() + " [" + this.getDate() + "]" );
-        if(result.length() > 0)
+        if(result.length() > 0) {
+            System.out.print("\nResult of command:\n");
             System.out.println(result);
+        }
     }
 
     public void parse() throws IOException {
