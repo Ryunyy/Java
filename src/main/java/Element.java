@@ -67,11 +67,6 @@ public abstract class Element {
     }
 
     protected void show(){
-        try {
-            parse(regex);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         System.out.print(this.getName() + ": " + this.getValue() + " " + this.getMeasure() + " [" + this.getDate() + "]\n" );
         if(result.size() > 0) {
             int i = 0;
@@ -92,7 +87,7 @@ public abstract class Element {
         return this.result;
     }
 
-    public void parse(String regex) throws IOException {
+    public void parse() throws IOException {
         Parser parser = new Parser();
         try {
             this.result = parser.getInfo(cmd);
@@ -100,14 +95,14 @@ public abstract class Element {
             e.printStackTrace();
             System.out.print("parse unsuccessful");
         }
-        filter(regex);
+        filter();
     }
 
-    public void filter(String regex){
+    public void filter(){
         ArrayList<String> res = new ArrayList<>();
         int i = 0;
         while(i < result.size()){
-            Pattern pattern = Pattern.compile(regex); // [... = ddd...d]
+            Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(result.get(i));
             if (matcher.find()) {
                 i++;

@@ -1,6 +1,5 @@
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Processor extends Element{
 
@@ -11,6 +10,27 @@ public class Processor extends Element{
     public Processor(){
         this.setCmd(cmd_1);
         this.setRegex(regex);
+        try {
+            this.parse();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void split(){
+        int line_index = 0;
+        String temp;
+        String[] parts;
+        ArrayList<String> lines;
+        lines = this.getResult();
+
+        while(line_index < lines.size()){
+            temp = lines.get(line_index);
+            parts = temp.split(" ");
+            System.out.print("|"+parts[parts.length - 7]+"|");
+            System.out.println();
+            line_index++;
+        }
     }
 
     @Override

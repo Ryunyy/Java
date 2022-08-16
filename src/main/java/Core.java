@@ -15,6 +15,8 @@ public class Core {
         proc.setValue(rand.nextInt(100));
         proc.setDate(current_time);
         proc.show();
+        System.out.print("\n\n");
+        proc.split();
 
         /*Memory mem = new Memory();
         mem.setName("RAM usage: ");
