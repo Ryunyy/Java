@@ -73,7 +73,7 @@ public abstract class Element {
             System.out.print("Result of command:\n");
             while(i < result.size()) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(400);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
