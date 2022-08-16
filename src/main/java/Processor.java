@@ -23,10 +23,20 @@ public class Processor extends Element{
         String[] parts;
         ArrayList<String> lines;
         lines = this.getResult();
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         while(line_index < lines.size()){
             temp = lines.get(line_index);
             parts = temp.split(" ");
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             System.out.print("|"+parts[parts.length - 7]+"|");
             System.out.println();
             line_index++;
