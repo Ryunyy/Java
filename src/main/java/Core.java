@@ -10,7 +10,7 @@ public class Core {
         String current_time = dateTimeFormatter.format(LocalDateTime.now()); //получение текущей даты
 
         Processor proc = new Processor();
-        proc.split();
+        proc.grab();
         proc.setName("Processor occupancy");
         proc.setMeasure("%");
         proc.setValue(proc.getSum());
@@ -19,14 +19,15 @@ public class Core {
         System.out.print("\n\n");
 
 
-        /*Memory mem = new Memory();
+        Memory mem = new Memory();
+        mem.grab();
         mem.setName("RAM usage: ");
         mem.setMeasure("MB");
         mem.setValue(rand.nextInt(1000));
         mem.setDate(current_time);
         mem.show();
 
-        Disk disk = new Disk();
+        /*Disk disk = new Disk();
         disk.setName("ROM occupancy: ");
         disk.setMeasure("GB");
         disk.setValue(rand.nextInt(100));

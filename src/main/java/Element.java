@@ -109,12 +109,13 @@ public abstract class Element {
         while(i < result.size()){
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(result.get(i));
+            System.out.print("LINE: " + result.get(i));
             if (matcher.find()) {
-                i++;
-                while(i < result.size()) {
-                    res.add(result.get(i));
-                    i++;
-                }
+                System.out.print("\ncorrect\n\n");
+                res.add(result.get(i));
+            }
+            else{
+                System.out.print("\nincorrect\n\n");
             }
             i++;
         }
