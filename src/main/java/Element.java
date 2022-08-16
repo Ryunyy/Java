@@ -57,7 +57,7 @@ public abstract class Element {
 
     protected void show(){
         try {
-            parse();
+            result = parse();
         } catch (IOException e) {
             e.printStackTrace();
             System.out.print("parse unsuccessful");
