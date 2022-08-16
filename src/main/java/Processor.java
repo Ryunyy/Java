@@ -1,16 +1,14 @@
-import java.io.IOException;
-
 public class Processor extends Element{
 
-    private String cmd = "top -bn 1 ";
-    public String result = "";
+    private String cmd_1 = "top -bn 1 ";
 
     public Processor(){
-        this.setCmd(cmd);
+        this.setCmd(cmd_1);
     }
 
     @Override
     public boolean recordInDB(){
         return false;
     }
+
 }

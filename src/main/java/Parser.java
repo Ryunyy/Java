@@ -12,7 +12,7 @@ public class Parser {
         String output = "", line, s;
         Process p;
 
-        System.out.println("command = " + cmd + "\n");
+        System.out.println("\ncommand = " + cmd);
 
         try {
             p = Runtime.getRuntime().exec(cmd);

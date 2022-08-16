@@ -55,15 +55,15 @@ public abstract class Element {
         return this.date;
     }
 
-    public void show_info(){
+    protected void show(){
         try {
             parse();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.print("\n" + this.getName() + ": " + this.getValue() + " " + this.getMeasure() + " [" + this.getDate() + "]" );
+        System.out.print(this.getName() + ": " + this.getValue() + " " + this.getMeasure() + " [" + this.getDate() + "]\n" );
         if(result.length() > 0) {
-            System.out.print("\nResult of command:\n");
+            System.out.print("Result of command:\n");
             System.out.println(result);
         }
     }
