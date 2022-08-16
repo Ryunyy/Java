@@ -24,7 +24,7 @@ public class Processor extends Element{
         ArrayList<String> lines;
         lines = this.getResult();
         try {
-            Thread.sleep(10000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -33,7 +33,7 @@ public class Processor extends Element{
             temp = lines.get(line_index);
             parts = temp.split(" ");
             try {
-                Thread.sleep(3000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
