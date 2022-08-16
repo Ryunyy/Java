@@ -10,13 +10,13 @@ public class Core {
         String current_time = dateTimeFormatter.format(LocalDateTime.now()); //получение текущей даты
 
         Processor proc = new Processor();
-        proc.setName("Processor Thread #" + 1);
+        proc.setName("Processor occupancy" + 1);
         proc.setMeasure("KB");
         proc.setValue(rand.nextInt(100));
         proc.setDate(current_time);
         proc.show();
 
-        Memory mem = new Memory();
+        /*Memory mem = new Memory();
         mem.setName("RAM usage: ");
         mem.setMeasure("MB");
         mem.setValue(rand.nextInt(1000));
@@ -35,6 +35,6 @@ public class Core {
         intfc.setMeasure("B");
         intfc.setValue(rand.nextInt(1000000));
         intfc.setDate(current_time);
-        intfc.show();
+        intfc.show();*/
     }
 }

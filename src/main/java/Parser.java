@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class Parser {
     
@@ -8,8 +9,9 @@ public class Parser {
         
     }
     
-    public String getInfo(String cmd) throws IOException {
-        String output = "", line, s;
+    public ArrayList<String> getInfo(String cmd) throws IOException {
+        String s;
+        ArrayList<String> output = new ArrayList<>();
         Process p;
 
         System.out.println("\ncommand = " + cmd);
@@ -18,7 +20,7 @@ public class Parser {
             p = Runtime.getRuntime().exec(cmd);
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             while ((s = br.readLine()) != null)
-                output += ("\n" + s);
+                output.add(s);
             p.waitFor();
             p.destroy();
         } catch (Exception e) {}

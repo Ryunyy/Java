@@ -1,10 +1,12 @@
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class Element {
-    private String name, measure, cmd, date = "no date";
-    private int value;
-    public String result = "";
+    private String name = "", measure = "", cmd = "", regex = "", date = "no date";
+    private int value = 0;
+    private ArrayList<String> result;
 
     public Element(){
 
@@ -17,6 +19,15 @@ public abstract class Element {
 
     public String getCmd(){
         return this.cmd;
+    }
+
+    public void setRegex(String new_reg){
+        if(new_reg.length() > 0)
+            this.regex = new_reg;
+    }
+
+    public String getRegex(){
+        return regex;
     }
 
     public void setName(String new_name){
@@ -57,21 +68,57 @@ public abstract class Element {
 
     protected void show(){
         try {
-            result = parse();
+            parse(regex);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.print(this.getName() + ": " + this.getValue() + " " + this.getMeasure() + " [" + this.getDate() + "]\n" );
+        if(result.size() > 0) {
+            int i = 0;
+            System.out.print("Result of command:\n");
+            while(i < result.size()) {
+                System.out.println(result.get(i));
+                i++;
+            }
+        }
+    }
+
+    public void setResult(ArrayList<String> new_res){
+        if(new_res.size() >0)
+            this.result = new_res;
+    }
+
+    public ArrayList<String> getResult(){
+        return this.result;
+    }
+
+    public void parse(String regex) throws IOException {
+        Parser parser = new Parser();
+        try {
+            this.result = parser.getInfo(cmd);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.print("parse unsuccessful");
         }
-        System.out.print(this.getName() + ": " + this.getValue() + " " + this.getMeasure() + " [" + this.getDate() + "]\n" );
-        if(result.length() > 0) {
-            System.out.print("Result of command:\n");
-            System.out.println(result);
-        }
+        filter(regex);
     }
 
-    private String parse() throws IOException {
-        Parser parser = new Parser();
-        return parser.getInfo(cmd);
+    public void filter(String regex){
+        ArrayList<String> res = new ArrayList<>();
+        int i = 0;
+        while(i < result.size()){
+            Pattern pattern = Pattern.compile(regex); // [... = ddd...d]
+            Matcher matcher = pattern.matcher(result.get(i));
+            if (matcher.find()) {
+                i++;
+                while(i < result.size()) {
+                    res.add(result.get(i));
+                    i++;
+                }
+            }
+            i++;
+        }
+        this.setResult(res);
     }
 
     public boolean date_check(String name){
