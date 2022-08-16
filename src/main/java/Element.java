@@ -72,6 +72,11 @@ public abstract class Element {
             int i = 0;
             System.out.print("Result of command:\n");
             while(i < result.size()) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 System.out.println(result.get(i));
                 i++;
             }
