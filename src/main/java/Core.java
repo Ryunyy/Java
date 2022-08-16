@@ -9,14 +9,14 @@ public class Core {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss"); //создание формата даты
         String current_time = dateTimeFormatter.format(LocalDateTime.now()); //получение текущей даты
 
-        /*Processor proc = new Processor();
+        Processor proc = new Processor();
         proc.grab();
         proc.setName("Processor occupancy");
         proc.setMeasure("%");
         proc.setValue(proc.getSum());
         proc.setDate(current_time);
         proc.show();
-        System.out.print("\n\n");*/
+        System.out.print("\n\n");
 
 
         Memory mem = new Memory();
