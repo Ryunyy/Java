@@ -43,7 +43,6 @@ public class Processor extends Element{
             this.sum_occupancy += Double.valueOf(parts[parts.length - 7]);
             line_index++;
         }
-        System.out.print("Total occupancy = " + this.sum_occupancy);
     }
 
     @Override

@@ -70,7 +70,7 @@ public abstract class Element {
         System.out.print(this.getName() + ": " + this.getValue() + " " + this.getMeasure() + " [" + this.getDate() + "]\n" );
         if(result.size() > 0) {
             int i = 0;
-            System.out.print("Result of command:\n");
+            /*System.out.print("Result of command:\n");
             while(i < result.size()) {
                 try {
                     Thread.sleep(400);
@@ -79,7 +79,7 @@ public abstract class Element {
                 }
                 System.out.println(result.get(i));
                 i++;
-            }
+            }*/
         }
     }
 

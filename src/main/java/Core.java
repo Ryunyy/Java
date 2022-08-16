@@ -11,7 +11,7 @@ public class Core {
 
         Processor proc = new Processor();
         proc.split();
-        proc.setName("Processor occupancy" + 1);
+        proc.setName("Processor occupancy");
         proc.setMeasure("%");
         proc.setValue(proc.getSum());
         proc.setDate(current_time);
