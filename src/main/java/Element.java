@@ -60,6 +60,7 @@ public abstract class Element {
             parse();
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.print("parse unsuccessful");
         }
         System.out.print(this.getName() + ": " + this.getValue() + " " + this.getMeasure() + " [" + this.getDate() + "]\n" );
         if(result.length() > 0) {
