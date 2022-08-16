@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public abstract class Element {
     private String name = "", measure = "", cmd = "", regex = "", date = "no date";
-    private int value = 0;
+    private double value = 0;
     private ArrayList<String> result;
 
     public Element(){
@@ -39,12 +39,12 @@ public abstract class Element {
         return this.name;
     }
 
-    public void setValue(int new_value){
+    public void setValue(double new_value){
         if(new_value >= 0)
             this.value = new_value;
     }
 
-    public int getValue(){
+    public double getValue(){
         return this.value;
     }
 

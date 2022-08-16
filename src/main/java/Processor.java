@@ -17,30 +17,33 @@ public class Processor extends Element{
         }
     }
 
+    public double getSum(){
+        return this.sum_occupancy;
+    }
+
     public void split(){
         int line_index = 0;
         String temp;
         String[] parts;
         ArrayList<String> lines;
         lines = this.getResult();
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         while(line_index < lines.size()){
             temp = lines.get(line_index);
             parts = temp.split(" ");
-            try {
+
+            /*try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.print("|"+parts[parts.length - 7]+"|");
-            System.out.println();
+            System.out.print(parts[parts.length - 7]);
+            System.out.println();*/
+
+            this.sum_occupancy += Double.valueOf(parts[parts.length - 7]);
             line_index++;
         }
+        System.out.print("Total occupancy = " + this.sum_occupancy);
     }
 
     @Override

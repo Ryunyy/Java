@@ -10,13 +10,14 @@ public class Core {
         String current_time = dateTimeFormatter.format(LocalDateTime.now()); //получение текущей даты
 
         Processor proc = new Processor();
+        proc.split();
         proc.setName("Processor occupancy" + 1);
-        proc.setMeasure("KB");
-        proc.setValue(rand.nextInt(100));
+        proc.setMeasure("%");
+        proc.setValue(proc.getSum());
         proc.setDate(current_time);
         proc.show();
         System.out.print("\n\n");
-        proc.split();
+
 
         /*Memory mem = new Memory();
         mem.setName("RAM usage: ");
