@@ -23,7 +23,7 @@ public class Core {
         mem.grab();
         mem.setName("RAM usage: ");
         mem.setMeasure("MB");
-        mem.setValue(rand.nextInt(1000));
+        mem.setValue(mem.getMb());
         mem.setDate(current_time);
         mem.show();
 

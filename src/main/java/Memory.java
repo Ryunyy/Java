@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Memory extends Element{
 
-    private final String cmd_1 = "top -bn 1 -i -c";
+    private final String cmd_1 = "top -bn 1";
     private String regex = "KiB Mem :";
     private double mb;
 
@@ -27,7 +27,10 @@ public class Memory extends Element{
         String temp = parse_res.get(0);
         String parts[] = temp.split(" ");
         for(int i = 0; i < parts.length; i++){
-            System.out.print(i + ": " + parts[i] + "\n");
+            if(parts[i].contains("used")){
+                this.mb = (Double.valueOf(parts[i-1]) / 1024);
+            }
+            //System.out.print(i + ": " + parts[i] + "\n");
         }
     }
 
