@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Memory extends Element{
 
-    private final String cmd_1 = "top -bn 1";
+    private final String cmd_1 = "top -bn 1 -i -c";
     private String regex = "KiB Mem :";
     private double mb;
 
