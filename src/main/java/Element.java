@@ -4,115 +4,112 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class Element {
-    private String name = "", measure = "", cmd = "", regex = "", date = "no date";
+    private String name = "", measure = "", cmd = "", regex = "", date = "no date"; //элементы для дочерних классов. используются по необходимости
     private double value = 0;
-    private ArrayList<String> result;
+    private ArrayList<String> result; // для получения вывода результатов команды
 
     public Element(){
 
     }
 
-    public void setCmd(String new_cmd){
+    public void setCmd(String new_cmd){ //сеттер команды
         if(new_cmd.length()>0)
             this.cmd = new_cmd;
     }
 
-    public String getCmd(){
+    public String getCmd(){ //геттер команды
         return this.cmd;
     }
 
-    public void setRegex(String new_reg){
+    public void setRegex(String new_reg){ //сеттер регулярки
         if(new_reg.length() > 0)
             this.regex = new_reg;
     }
 
-    public String getRegex(){
+    public String getRegex(){ //геттер регулярки
         return regex;
     }
 
-    public void setName(String new_name){
+    public void setName(String new_name){ //сеттер имени
         if(new_name.length() > 0)
             this.name = new_name;
     }
 
-    public String getName(){
+    public String getName(){ //геттер имени
         return this.name;
     }
 
-    public void setValue(double new_value){
+    public void setValue(double new_value){ //сеттер значения
         if(new_value >= 0)
             this.value = new_value;
     }
 
-    public double getValue(){
+    public double getValue(){ //геттер значения
         return this.value;
     }
 
-    public void setMeasure(String new_measure){
+    public void setMeasure(String new_measure){ //сеттер ед.измерения
         if(new_measure.length() > 0)
             this.measure = new_measure;
     }
 
-    public String getMeasure(){
+    public String getMeasure(){ //геттер ед.измерения
         return this.measure;
     }
 
-    public void setDate(String new_date){
+    public void setDate(String new_date){ //сеттер даты
         if(date_check(new_date))
             this.date = new_date;
     }
 
-    public String getDate(){
+    public String getDate(){ //геттер даты
         return this.date;
     }
 
-    protected abstract void show();
+    protected abstract void show(); //метод вывода в консоль. переопределяемый
 
-    public void setResult(ArrayList<String> new_res){
+    public void setResult(ArrayList<String> new_res){ //сеттер вывода результатов команды
         if(new_res.size() >0)
             this.result = new_res;
     }
 
-    public ArrayList<String> getResult(){
+    public ArrayList<String> getResult(){ //гетер вывода результатов команды
         return this.result;
     }
 
-    public void parse() throws IOException {
-        Parser parser = new Parser();
+    public void parse() throws IOException { //метод парсинга рещультатов команды
+        Parser parser = new Parser(); //создание экземпляра класса
         try {
-            this.result = parser.getInfo(cmd);
+            this.result = parser.getInfo(cmd); //получение результатов вывода команды
         } catch (IOException e) {
             e.printStackTrace();
             System.out.print("parse unsuccessful");
         }
-        filter();
+        filter(); //пропуск вывода через фильтр по регулярке
     }
 
     public void filter(){
-        ArrayList<String> res = new ArrayList<>();
-        int i = 0;
-        while(i < result.size()){
+        ArrayList<String> res = new ArrayList<>(); //массив строк вывода результатов команды
+        int i = 0; //номер текущей строки
+        while(i < result.size()){ //пока не конец вывода
             Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(result.get(i));
-            //System.out.print("LINE: " + result.get(i));
+            Matcher matcher = pattern.matcher(result.get(i)); //если строка подходит по регулярке
             if (matcher.find()) {
-                //System.out.print("\ncorrect\n\n");
-                res.add(result.get(i));
+                res.add(result.get(i)); //добавляем ее в массив подходящих строк
             }
             else{
-                //System.out.print("\nincorrect\n\n");
             }
             i++;
         }
-        this.setResult(res);
+        this.setResult(res); //после того, как мы отсеяли ненужные строки, обновляем массив вывода, заменяя его на только нужные строки
     }
 
-    public boolean date_check(String name){
+    public boolean date_check(String name){ //проверка даты по регулсярке. пока не знаю зачем, тестированл навыки с регулярками
         String regex = "(0[1-9]|[1-2]\\d|3[01])_(0[1-9]|1[0-2])_(\\d{4})_([01][0-9]|2[0-3])_([0-5][0-9])_([0-5][0-9])";
         return Pattern.matches(regex, name);
     }
 
-    public abstract boolean recordInDB();
+    public abstract boolean recordInDB(); //запись в бд, переопределяемый
 
-    public abstract void grab();
+    public abstract void grab(); //метод сбора данных. у каждого класса свой - поэтому было проще сделать его абстрактным
 }
