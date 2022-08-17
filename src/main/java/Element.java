@@ -66,22 +66,7 @@ public abstract class Element {
         return this.date;
     }
 
-    protected void show(){
-        System.out.print(this.getName() + ": " + this.getValue() + " " + this.getMeasure() + " [" + this.getDate() + "]\n\n" );
-        if(result.size() > 0) {
-            int i = 0;
-            /*System.out.print("Result of command:\n");
-            while(i < result.size()) {
-                try {
-                    Thread.sleep(400);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(result.get(i));
-                i++;
-            }*/
-        }
-    }
+    protected abstract void show();
 
     public void setResult(ArrayList<String> new_res){
         if(new_res.size() >0)

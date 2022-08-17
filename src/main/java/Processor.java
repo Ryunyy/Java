@@ -42,6 +42,11 @@ public class Processor extends Element{
     }
 
     @Override
+    protected void show(){
+        System.out.print(this.getName() + ": " + this.getValue() + " " + this.getMeasure() + " [" + this.getDate() + "]\n\n" );
+    }
+
+    @Override
     public boolean recordInDB(){
         return false;
     }

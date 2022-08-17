@@ -24,11 +24,9 @@ public class Core {
         disk.setDate(current_time);
         disk.show();
 
-        /*Interface intfc = new Interface();
-        intfc.setName("Bytes sent: ");
-        intfc.setMeasure("B");
-        intfc.setValue(rand.nextInt(1000000));
+        Interface intfc = new Interface();
+        intfc.grab();
         intfc.setDate(current_time);
-        intfc.show();*/
+        intfc.show();
     }
 }

@@ -27,6 +27,7 @@ public class Disk extends Element{
         return this.used_rom;
     }
 
+    @Override
     public void show(){
         System.out.print(this.getName() + ": " + this.getUsed_rom() + " " + this.getMeasure() + " | Total: " + this.getTotal_rom() + " " + this.getMeasure() + " [" + this.getDate() + "]\n\n" );
     }

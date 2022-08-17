@@ -27,6 +27,7 @@ public class Memory extends Element{
         return this.mb_total;
     }
 
+    @Override
     public void show(){
         System.out.print(this.getName() + ": " + this.getMb_used() + " " + this.getMeasure() + " | Total: " + this.getMb_total() + " " + this.getMeasure() + " [" + this.getDate() + "]\n\n" );
     }
