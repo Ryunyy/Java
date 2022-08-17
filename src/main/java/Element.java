@@ -67,7 +67,7 @@ public abstract class Element {
     }
 
     protected void show(){
-        System.out.print(this.getName() + ": " + this.getValue() + " " + this.getMeasure() + " [" + this.getDate() + "]\n" );
+        System.out.print(this.getName() + ": " + this.getValue() + " " + this.getMeasure() + " [" + this.getDate() + "]\n\n" );
         if(result.size() > 0) {
             int i = 0;
             /*System.out.print("Result of command:\n");
@@ -128,4 +128,6 @@ public abstract class Element {
     }
 
     public abstract boolean recordInDB();
+
+    public abstract void grab();
 }

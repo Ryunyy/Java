@@ -5,7 +5,7 @@ public class Memory extends Element{
 
     private final String cmd_1 = "top -bn 1 -i -c";
     private String regex = "KiB Mem :";
-    private double mb;
+    private double mb_used, mb_total;
 
     public Memory(){
         this.setCmd(cmd_1);
@@ -15,23 +15,40 @@ public class Memory extends Element{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.setName("RAM usage");
+        this.setMeasure("MB");
     }
 
-    public double getMb(){
-        return this.mb;
+    public double getMb_used(){
+        return this.mb_used;
     }
 
+    public double getMb_total(){
+        return this.mb_total;
+    }
+
+    public void show(){
+        System.out.print(this.getName() + ": " + this.getMb_used() + " " + this.getMeasure() + " | Total: " + this.getMb_total() + " " + this.getMeasure() + " [" + this.getDate() + "]\n\n" );
+    }
+
+    @Override
     public void grab(){
-        ArrayList<String> parse_res = new ArrayList<>();
+        ArrayList<String> parse_res;
         parse_res = this.getResult();
-        String temp = parse_res.get(0);
-        String parts[] = temp.split(" ");
+        double temp1, temp2;
+        String temp;
+        String parts[] = parse_res.get(0).split(" ");
         for(int i = 0; i < parts.length; i++){
             if(parts[i].contains("used")){
-                this.mb = (Double.valueOf(parts[i-1]) / 1024);
-                //System.out.print("\n"+parts[i-1]+"\n");
+                temp1 = (Double.valueOf(parts[i-1]) / 1024);
+                temp = String.format("%.2f",temp1);
+                this.mb_used = Double.valueOf(temp);
             }
-            //System.out.print(i + ": " + parts[i] + "\n");
+            if(parts[i].contains("total")){
+                temp2 = (Double.valueOf(parts[i-1]) / 1024);
+                temp = String.format("%.2f",temp2);
+                this.mb_total = Double.valueOf(temp);
+            }
         }
     }
 

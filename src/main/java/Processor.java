@@ -15,12 +15,15 @@ public class Processor extends Element{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.setMeasure("%");
+        this.setName("CPU occupancy");
     }
 
     public double getSum(){
         return this.sum_occupancy;
     }
 
+    @Override
     public void grab(){
         int line_index = 0;
         String temp;
@@ -32,17 +35,10 @@ public class Processor extends Element{
             temp = lines.get(line_index);
             parts = temp.split(" ");
 
-            /*[try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.print(parts[parts.length - 7]);
-            System.out.println();*/
-
             this.sum_occupancy += Double.valueOf(parts[parts.length - 7]);
             line_index++;
         }
+        this.setValue(this.getSum());
     }
 
     @Override

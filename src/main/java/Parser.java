@@ -14,8 +14,6 @@ public class Parser {
         ArrayList<String> output = new ArrayList<>();
         Process p;
 
-        System.out.println("\ncommand = " + cmd);
-
         try {
             p = Runtime.getRuntime().exec(cmd);
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));

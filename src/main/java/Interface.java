@@ -8,6 +8,10 @@ public class Interface extends Element{
     }
 
     @Override
+    public void grab() {
+    }
+
+    @Override
     public boolean recordInDB(){
         return false;
     }

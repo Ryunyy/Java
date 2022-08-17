@@ -11,30 +11,20 @@ public class Core {
 
         Processor proc = new Processor();
         proc.grab();
-        proc.setName("Processor occupancy");
-        proc.setMeasure("%");
-        proc.setValue(proc.getSum());
         proc.setDate(current_time);
         proc.show();
-        System.out.print("\n\n");
-
 
         Memory mem = new Memory();
         mem.grab();
-        mem.setName("RAM usage: ");
-        mem.setMeasure("MB");
-        mem.setValue(mem.getMb());
         mem.setDate(current_time);
         mem.show();
 
-        /*Disk disk = new Disk();
-        disk.setName("ROM occupancy: ");
-        disk.setMeasure("GB");
-        disk.setValue(rand.nextInt(100));
+        Disk disk = new Disk();
+        disk.grab();
         disk.setDate(current_time);
         disk.show();
 
-        Interface intfc = new Interface();
+        /*Interface intfc = new Interface();
         intfc.setName("Bytes sent: ");
         intfc.setMeasure("B");
         intfc.setValue(rand.nextInt(1000000));
