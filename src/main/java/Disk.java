@@ -38,12 +38,16 @@ public class Disk extends Element{
         parse_res = this.getResult();
         String temp = "";
         String[] parts = parse_res.get(0).split(" ");
-        temp1 = Double.valueOf(parts[0]) / 1024 / 1024;
-        temp2 = Double.valueOf(parts[1]) / 1024 / 1024;
-        temp = String.format("%.2f",temp1);
-        this.total_rom = Double.valueOf(temp);
-        temp = String.format("%.2f",temp2);
-        this.used_rom = Double.valueOf(temp);
+        for(int i = 0;i < parts.length; i++) {
+            if(!parts[i].contains(" ")) {
+                temp1 = Double.valueOf(parts[0]) / 1024 / 1024;
+                temp2 = Double.valueOf(parts[1]) / 1024 / 1024;
+                temp = String.format("%.2f", temp1);
+                this.total_rom = Double.valueOf(temp);
+                temp = String.format("%.2f", temp2);
+                this.used_rom = Double.valueOf(temp);
+            }
+        }
 
     }
 
