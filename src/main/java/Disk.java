@@ -39,13 +39,14 @@ public class Disk extends Element{
         String temp = "";
         String[] parts = parse_res.get(0).split(" ");
         for(int i = 0;i < parts.length; i++) {
-            if(!parts[i].contains(" ")) {
+            if(parts[i].length() > 1) {
                 temp1 = Double.valueOf(parts[i]) / 1024 / 1024;
                 temp2 = Double.valueOf(parts[i+1]) / 1024 / 1024;
                 temp = String.format("%.2f", temp1);
                 this.total_rom = Double.valueOf(temp);
                 temp = String.format("%.2f", temp2);
                 this.used_rom = Double.valueOf(temp);
+                i = parts.length;
             }
         }
 
