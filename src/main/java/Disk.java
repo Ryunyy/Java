@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Disk extends Element{
 
     private final String cmd_1 = "df --output=size,used,avail /";
-    private String regex = "(\\d+\\D+){2}"+"(\\d)";
+    private String regex = "(.*)"+"(\\d+\\D+){2}"+"(\\d)";
     private double total_rom, used_rom;
 
     public Disk(){
@@ -36,7 +36,7 @@ public class Disk extends Element{
         double temp1, temp2;
         ArrayList<String> parse_res;
         parse_res = this.getResult();
-        String temp;
+        String temp = "";
         String[] parts = parse_res.get(0).split(" ");
         temp1 = Double.valueOf(parts[0]) / 1024 / 1024;
         temp2 = Double.valueOf(parts[1]) / 1024 / 1024;
