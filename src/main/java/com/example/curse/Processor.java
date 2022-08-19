@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Processor extends Element{
 
     private String cmd_1 = "top -bn 1 "; //командя для парсинга результатов
-    private String regex = "(\\D+\\d+){7}"+"(\\.)?\\d\\D+\\d+(\\.)?\\d"+"(\\D+\\d+){2}"+"(\\.)"+"(\\d+\\D+)"; //регулярка для получения результатов таблицы
+    private String regex = "[^%](\\D+\\d+){7}"+"(\\.)?\\d\\D+\\d+(\\.)?\\d"+"(\\D+\\d+){2}"+"(\\.)"+"(\\d+\\D+)"; //регулярка для получения результатов таблицы
     private double sum_occupancy = 0; //итоговая загруженность процессора
 
     public Processor(){
@@ -36,6 +36,7 @@ public class Processor extends Element{
         while(line_index < lines.size()){ //пока не дошли до конца вывода
             temp = lines.get(line_index); //копируем строку для ее разбиения
             parts = temp.split(" "); //разбиваем строку по пробелам
+            System.out.println();
 
             this.sum_occupancy += Double.valueOf(parts[parts.length - 7]); //получаем нужное значение (из столбца) и суммируем его с предыдущими для подсчета общей загруженности CPU
             line_index++; //индекс для следующей строки
