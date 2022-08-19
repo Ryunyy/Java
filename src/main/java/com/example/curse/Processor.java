@@ -36,7 +36,7 @@ public class Processor extends Element{
         while(line_index < lines.size()){ //пока не дошли до конца вывода
             temp = lines.get(line_index); //копируем строку для ее разбиения
             parts = temp.split(" "); //разбиваем строку по пробелам
-            System.out.println();
+            System.out.println(temp);
 
             this.sum_occupancy += Double.valueOf(parts[parts.length - 7]); //получаем нужное значение (из столбца) и суммируем его с предыдущими для подсчета общей загруженности CPU
             line_index++; //индекс для следующей строки
