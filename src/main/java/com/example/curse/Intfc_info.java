@@ -1,3 +1,5 @@
+package com.example.curse;
+
 public class Intfc_info { //вспомогательный класс для хранения информации о интерфейсах
     private String name; //имя интерфейса
     private int rx, tx; //значения принятых/отправленных байтов

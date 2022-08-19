@@ -1,3 +1,5 @@
+package com.example.curse;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;

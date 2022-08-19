@@ -1,11 +1,14 @@
+package com.example.curse;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Core {
-    public static void main(String[] args) {
+    public Core() {
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss"); //создание формата даты
         String current_time = dateTimeFormatter.format(LocalDateTime.now()); //получение текущей даты
+        System.out.println();
 
         Processor proc = new Processor(); //создание экземпляра класса для сборки информации об использовании процессора
         proc.grab(); //сбор информации
