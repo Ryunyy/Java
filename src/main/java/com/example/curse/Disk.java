@@ -1,6 +1,10 @@
 package com.example.curse;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Disk extends Element{
@@ -52,12 +56,51 @@ public class Disk extends Element{
                 i = parts.length; //прерывание цикла, т.к. нам нужно только два значения
             }
         }
-
+        this.recordInDB();
     }
 
     @Override
     public boolean recordInDB(){ //запись в бд
-        return false;
+        boolean result = false;
+        String table_name = "disk_info";
+        try {
+            Connection c = DriverManager.getConnection(this.getUrl(), this.getUser(), this.getPassword());
+
+            String create_table = "create table " + table_name +
+                    " ( id serial primary key," +
+                    "used_memory real not null," +
+                    "total_memory real not null," +
+                    "measure varchar(2) not null," +
+                    "date varchar(20) not null )";
+
+            String check_table = "select count(*) from information_schema.tables where table_name='" + table_name + "'";
+
+            try {
+                Class.forName("org.postgresql.Driver");
+                Statement stmt = c.createStatement();
+                ResultSet rs = stmt.executeQuery(check_table);
+                rs.next();
+                if(rs.getInt(1) == 0){
+                    stmt.executeUpdate(create_table);
+                }
+                System.out.println("table already exist");
+                String insert = "insert into " + table_name + " (used_memory, total_memory, measure, date) values ('" + this.getUsed_rom() + "','" + this.getTotal_rom() + "','" + this.getMeasure() + "','" + this.getDate() +"')";
+                stmt.executeUpdate(insert);
+                stmt.close();
+                System.out.println("Opened database successfully");
+                result = true;
+            }
+            finally {
+                c.close();
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+            result = false;
+        }
+        return result;
     }
 
 }

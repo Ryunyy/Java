@@ -2,7 +2,7 @@ package com.example.curse;
 
 public class Intfc_info { //вспомогательный класс для хранения информации о интерфейсах
     private String name; //имя интерфейса
-    private int rx, tx; //значения принятых/отправленных байтов
+    private int rx_all, tx_all, rx_new, tx_new; //значения принятых/отправленных байтов
 
     public Intfc_info(String new_name){
         if(new_name.length() > 0)
@@ -13,21 +13,39 @@ public class Intfc_info { //вспомогательный класс для х�
         return this.name;
     }
 
-    public void setRx(int value){ //сеттер принятых байтов
+    public void setRxAll(int value){ //сеттер принятых байтов
         if(value > 0)
-            this.rx = value;
+            this.rx_all = value;
     }
 
-    public int getRx(){ //геттер принятых байтов
-        return this.rx;
+    public int getRxAll(){ //геттер принятых байтов
+        return this.rx_all;
     }
 
-    public void setTx(int value){ //сеттер переданных байтов
+    public void setTxAll(int value){ //сеттер переданных байтов
         if(value > 0)
-            this.tx = value;
+            this.tx_all = value;
     }
 
-    public int getTx(){ //геттер переданных байтов
-        return this.tx;
+    public int getTxAll(){ //геттер переданных байтов
+        return this.tx_all;
+    }
+
+    public void setRxNew(int value){
+        if(value > 0)
+            this.rx_new = value;
+    }
+
+    public int getRxNew(){
+        return this.rx_new;
+    }
+
+    public void setTxNew(int value){
+        if(value > 0)
+            this.tx_new = value;
+    }
+
+    public int getTxNew(){
+        return this.tx_new;
     }
 }

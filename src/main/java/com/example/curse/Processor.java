@@ -1,6 +1,10 @@
 package com.example.curse;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Processor extends Element{
@@ -41,6 +45,7 @@ public class Processor extends Element{
             line_index++; //индекс для следующей строки
         }
         this.setValue(this.getSum()); //установка итоговой суммы
+        this.recordInDB();
     }
 
     @Override
@@ -50,7 +55,45 @@ public class Processor extends Element{
 
     @Override
     public boolean recordInDB(){ //запись в БД
-        return false;
+        boolean result = false;
+        String table_name = "proc_info";
+        try {
+            Connection c = DriverManager.getConnection(this.getUrl(), this.getUser(), this.getPassword());
+
+            String create_table = "create table " + table_name +
+                    " ( id serial primary key," +
+                    "occupancy real not null," +
+                    "measure varchar(1) not null," +
+                    "date varchar(20) not null )";
+
+            String check_table = "select count(*) from information_schema.tables where table_name='" + table_name + "'";
+
+            try {
+                Class.forName("org.postgresql.Driver");
+                Statement stmt = c.createStatement();
+                ResultSet rs = stmt.executeQuery(check_table);
+                rs.next();
+                if(rs.getInt(1) == 0){
+                    stmt.executeUpdate(create_table);
+                }
+                System.out.println("table already exist");
+                String insert = "insert into " + table_name + " (occupancy, measure, date) values ('" + this.getValue() + "','" + this.getMeasure() + "','" + this.getDate() +"')";
+                stmt.executeUpdate(insert);
+                stmt.close();
+                System.out.println("Opened database successfully");
+                result = true;
+            }
+            finally {
+                c.close();
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+            result = false;
+        }
+        return result;
     }
 
 }

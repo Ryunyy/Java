@@ -7,11 +7,22 @@ import java.util.regex.Pattern;
 
 public abstract class Element {
     private String name = "", measure = "", cmd = "", regex = "", date = "no date"; //элементы для дочерних классов. используются по необходимости
+    private String url = "jdbc:postgresql://localhost:5432/parse_res", user = "tester", password = "qwerty";
     private double value = 0;
     private ArrayList<String> result; // для получения вывода результатов команды
 
     public Element(){
 
+    }
+
+    public String getUrl(){
+        return this.url;
+    }
+    public String getUser(){
+        return this.user;
+    }
+    public String getPassword(){
+        return this.password;
     }
 
     public void setCmd(String new_cmd){ //сеттер команды
@@ -60,8 +71,9 @@ public abstract class Element {
     }
 
     public void setDate(String new_date){ //сеттер даты
-        if(date_check(new_date))
+        if(date_check(new_date)) {
             this.date = new_date;
+        }
     }
 
     public String getDate(){ //геттер даты
