@@ -127,10 +127,10 @@ public class Interface extends Element{
                 rs.next();
                 if(rs.getInt(1) == 0){
                     stmt.executeUpdate(create_table);
-                    System.out.println("Create table");
+                    //System.out.println("Create table");
                     group = 1;
                 }
-                System.out.println("table already exist");
+                //System.out.println("table already exist");
                 if(group == 0){
                     int temp = 0;
                     rs = stmt.executeQuery("select * from " + table_name);
@@ -146,13 +146,13 @@ public class Interface extends Element{
                     int index;
                     this.show();
                     while(rs.next()) {
-                        System.out.println(rs.getInt("id") + "-" + rs.getInt("group_num") + " : " + rs.getString("name") + " " + rs.getInt("received_all") +
+                        /*System.out.println(rs.getInt("id") + "-" + rs.getInt("group_num") + " : " + rs.getString("name") + " " + rs.getInt("received_all") +
                                 " " + rs.getInt("transferred_all") + " " + rs.getInt("received_new") + " " + rs.getInt("transferred_new") + " " + rs.getString("measure") +
-                                " " + rs.getString("date"));
+                                " " + rs.getString("date"));*/
                         index = getIndexOf(rs.getString("name"));
-                        System.out.println("searching name - " + rs.getString("name"));
+                        //System.out.println("searching name - " + rs.getString("name"));
                         if(index != -1){
-                            System.out.println("name found");
+                            //System.out.println("name found");
                             int res = int_info.get(index).getRxAll() - rs.getInt("received_all");
                             if(res < 0)
                                 int_info.get(index).setRxNew(int_info.get(index).getRxAll());
@@ -166,7 +166,7 @@ public class Interface extends Element{
                                 int_info.get(index).setTxNew(res);
                         }
                         else{
-                            System.out.println("name not found");
+                            //System.out.println("name not found");
                             int_info.add(new Intfc_info(rs.getString("name")));
                             int_info.get(int_info.size()-1).setRxAll(rs.getInt("received_all"));
                             int_info.get(int_info.size()-1).setTxAll(rs.getInt("transferred_all"));
@@ -188,7 +188,7 @@ public class Interface extends Element{
                     stmt.executeUpdate(insert);
                 }
                 stmt.close();
-                System.out.println("Opened database successfully");
+                //System.out.println("Opened database successfully");
                 result = true;
             }
             finally {

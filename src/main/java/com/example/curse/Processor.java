@@ -76,11 +76,11 @@ public class Processor extends Element{
                 if(rs.getInt(1) == 0){
                     stmt.executeUpdate(create_table);
                 }
-                System.out.println("table already exist");
+                //System.out.println("table already exist");
                 String insert = "insert into " + table_name + " (occupancy, measure, date) values ('" + this.getValue() + "','" + this.getMeasure() + "','" + this.getDate() +"')";
                 stmt.executeUpdate(insert);
                 stmt.close();
-                System.out.println("Opened database successfully");
+                //System.out.println("Opened database successfully");
                 result = true;
             }
             finally {
