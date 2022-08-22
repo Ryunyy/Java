@@ -100,6 +100,7 @@ public abstract class Element {
             System.out.print("parse unsuccessful");
         }
         filter(); //пропуск вывода через фильтр по регулярке
+
     }
 
     public void filter(){
