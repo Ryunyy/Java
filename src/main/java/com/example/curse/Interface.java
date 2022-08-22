@@ -144,7 +144,6 @@ public class Interface extends Element{
                 if(group > 1) {
                     rs = stmt.executeQuery("select * from " + table_name + " where group_num = " + (group - 1));
                     int index;
-                    this.show();
                     while(rs.next()) {
                         /*System.out.println(rs.getInt("id") + "-" + rs.getInt("group_num") + " : " + rs.getString("name") + " " + rs.getInt("received_all") +
                                 " " + rs.getInt("transferred_all") + " " + rs.getInt("received_new") + " " + rs.getInt("transferred_new") + " " + rs.getString("measure") +

@@ -22,17 +22,21 @@ public class Core {
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss"); //создание формата даты
         String current_time; //получение текущей даты
-        System.out.println();
+        System.out.println("\n");
         current_time = dateTimeFormatter.format(LocalDateTime.now());
+
         proc.setDate(current_time); // установка текущей даты
         proc.grab(); //сбор информации
         proc.show(); //вывод в консоль информации
+
         mem.setDate(current_time);
         mem.grab();
         mem.show();
+
         disk.setDate(current_time);
         disk.grab();
         disk.show();
+
         intfc.setDate(current_time);
         intfc.grab();
         intfc.show();

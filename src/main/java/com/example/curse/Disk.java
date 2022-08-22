@@ -83,11 +83,11 @@ public class Disk extends Element{
                 if(rs.getInt(1) == 0){
                     stmt.executeUpdate(create_table);
                 }
-                System.out.println("table already exist");
+                //System.out.println("table already exist");
                 String insert = "insert into " + table_name + " (used_memory, total_memory, measure, date) values ('" + this.getUsed_rom() + "','" + this.getTotal_rom() + "','" + this.getMeasure() + "','" + this.getDate() +"')";
                 stmt.executeUpdate(insert);
                 stmt.close();
-                System.out.println("Opened database successfully");
+                //System.out.println("Opened database successfully");
                 result = true;
             }
             finally {
