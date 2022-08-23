@@ -91,10 +91,10 @@ public class Disk extends Element{
                 while(rs.next()) {
                     last_index = rs.getInt("id");
                 }
-                System.out.println("last_id = " + last_index);
+                //System.out.println("last_id = " + last_index);
                 if(last_index > this.getMaxCount()){
                     diff = last_index - this.getMaxCount();
-                    System.out.println("del id < " + (diff+1));
+                    //System.out.println("del id < " + (diff+1));
                     stmt.executeUpdate("delete from " + table_name + " where id < " + (diff + 1));
                 }
                 stmt.close();

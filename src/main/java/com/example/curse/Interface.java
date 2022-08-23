@@ -190,10 +190,10 @@ public class Interface extends Element{
                 while(rs.next()) {
                     last_group_index = rs.getInt("group_num");
                 }
-                System.out.println("last_group_id = " + last_group_index);
+                //System.out.println("last_group_id = " + last_group_index);
                 if(last_group_index > this.getMaxCount()){
                     diff = last_group_index - this.getMaxCount();
-                    System.out.println("del id < " + (diff+1));
+                    //System.out.println("del id < " + (diff+1));
                     stmt.executeUpdate("delete from " + table_name + " where group_num < " + (diff + 1));
                 }
                 stmt.close();
