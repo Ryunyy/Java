@@ -102,8 +102,8 @@ public class Interface extends Element{
     @Override
     public boolean recordInDB(){ //запись в бд
         boolean result = false;
-        int group = 0;
-        String table_name = "intfc_info", insert;
+        String table_name = "intfc_info", insert, checker = "select * from " + table_name;
+        int group = 0, diff = 0, last_group_index = 0;
         try {
             Connection c = DriverManager.getConnection(this.getUrl(), this.getUser(), this.getPassword());
 
@@ -185,6 +185,16 @@ public class Interface extends Element{
                         int_info.get(i).getRxAll() + "','" + int_info.get(i).getTxAll() + "','" + int_info.get(i).getRxNew() + "','" + int_info.get(i).getTxNew() + "','" + this.getMeasure() + "','" +
                         this.getDate() + "')";
                     stmt.executeUpdate(insert);
+                }
+                rs = stmt.executeQuery(checker);
+                while(rs.next()) {
+                    last_group_index = rs.getInt("group_num");
+                }
+                System.out.println("last_group_id = " + last_group_index);
+                if(last_group_index > this.getMaxCount()){
+                    diff = last_group_index - this.getMaxCount();
+                    System.out.println("del id < " + (diff+1));
+                    stmt.executeUpdate("delete from " + table_name + " where group_num < " + (diff + 1));
                 }
                 stmt.close();
                 //System.out.println("Opened database successfully");

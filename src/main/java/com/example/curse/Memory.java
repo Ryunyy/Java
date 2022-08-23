@@ -63,7 +63,8 @@ public class Memory extends Element{
     @Override
     public boolean recordInDB(){ //запись в бд
         boolean result = false;
-        String table_name = "mem_info";
+        String table_name = "mem_info", checker = "select * from " + table_name;
+        int diff = 0, last_index = 0;
         try {
             Connection c = DriverManager.getConnection(this.getUrl(), this.getUser(), this.getPassword());
 
@@ -87,6 +88,16 @@ public class Memory extends Element{
                 //System.out.println("table already exist");
                 String insert = "insert into " + table_name + " (used_memory, total_memory, measure, date) values ('" + this.getMb_used() + "','" + this.getMb_total() + "','" + this.getMeasure() + "','" + this.getDate() +"')";
                 stmt.executeUpdate(insert);
+                rs = stmt.executeQuery(checker);
+                while(rs.next()) {
+                    last_index = rs.getInt("id");
+                }
+                System.out.println("last_id = " + last_index);
+                if(last_index > this.getMaxCount()){
+                    diff = last_index - this.getMaxCount();
+                    System.out.println("del id < " + (diff+1));
+                    stmt.executeUpdate("delete from " + table_name + " where id < " + (diff + 1));
+                }
                 stmt.close();
                 //System.out.println("Opened database successfully");
                 result = true;

@@ -48,6 +48,8 @@ public class Processor extends Element{
         this.recordInDB();
     }
 
+    
+
     @Override
     protected void show(){ //вывод информации в консоль
         System.out.print(this.getName() + ": " + this.getValue() + " " + this.getMeasure() + " [" + this.getDate() + "]\n\n" );
@@ -56,7 +58,8 @@ public class Processor extends Element{
     @Override
     public boolean recordInDB(){ //запись в БД
         boolean result = false;
-        String table_name = "proc_info";
+        String table_name = "proc_info", checker = "select * from " + table_name;
+        int diff = 0, last_index = 0;
         try {
             Connection c = DriverManager.getConnection(this.getUrl(), this.getUser(), this.getPassword());
 
@@ -79,6 +82,16 @@ public class Processor extends Element{
                 //System.out.println("table already exist");
                 String insert = "insert into " + table_name + " (occupancy, measure, date) values ('" + this.getValue() + "','" + this.getMeasure() + "','" + this.getDate() +"')";
                 stmt.executeUpdate(insert);
+                rs = stmt.executeQuery(checker);
+                while(rs.next()) {
+                    last_index = rs.getInt("id");
+                }
+                System.out.println("last_id = " + last_index);
+                if(last_index > this.getMaxCount()){
+                    diff = last_index - this.getMaxCount();
+                    System.out.println("del id < " + (diff+1));
+                    stmt.executeUpdate("delete from " + table_name + " where id < " + (diff + 1));
+                }
                 stmt.close();
                 //System.out.println("Opened database successfully");
                 result = true;

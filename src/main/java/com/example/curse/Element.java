@@ -11,8 +11,14 @@ public abstract class Element {
     private double value = 0;
     private ArrayList<String> result; // для получения вывода результатов команды
 
+    private int max_count = 10;
+
     public Element(){
 
+    }
+
+    public int getMaxCount(){
+        return this.max_count;
     }
 
     public String getUrl(){
