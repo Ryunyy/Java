@@ -31,14 +31,14 @@ public class Core {
 
         mem.setDate(current_time);
         mem.grab();
-        mem.show();
+        //mem.show();
 
         disk.setDate(current_time);
         disk.grab();
-        disk.show();
+        //disk.show();
 
         intfc.setDate(current_time);
         intfc.grab();
-        intfc.show();
+        //intfc.show();
     }
 }

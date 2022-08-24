@@ -39,6 +39,12 @@ public class Processor extends Element{
 
         while(line_index < lines.size()){ //пока не дошли до конца вывода
             temp = lines.get(line_index); //копируем строку для ее разбиения
+            System.out.println("line: " + temp);
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             parts = temp.split(" "); //разбиваем строку по пробелам
 
             if(!parts[parts.length - 7].contains(","))
@@ -46,6 +52,7 @@ public class Processor extends Element{
             line_index++; //индекс для следующей строки
         }
         this.setValue(this.getSum()); //установка итоговой суммы
+        System.out.println("set value as " + this.getSum());
         this.recordInDB();
     }
 
