@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class Processor extends Element{
 
-    private String cmd_1 = "top -bn 1 "; //командя для парсинга результатов
-    private String regex = "[^%](\\D+\\d+){7}"+"(\\.)?\\d\\D+\\d+(\\.)?\\d"+"(\\D+\\d+){2}"+"(\\.)"+"(\\d+\\D+)"; //регулярка для получения результатов таблицы
+    private String cmd_1 = "top -bn 1"; //командя для парсинга результатов
+    private String regex = "(\\D+\\d+){7}"+"(\\.)?\\d\\D+\\d+(\\.)?\\d"+"(\\D+\\d+){2}"+"(\\.)"+"(\\d+\\D+)"; //регулярка для получения результатов таблицы
     private double sum_occupancy = 0; //итоговая загруженность процессора
 
     public Processor(){
