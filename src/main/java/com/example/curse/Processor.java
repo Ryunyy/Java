@@ -39,12 +39,6 @@ public class Processor extends Element{
 
         while(line_index < lines.size()){ //пока не дошли до конца вывода
             temp = lines.get(line_index); //копируем строку для ее разбиения
-            System.out.println("line: " + temp);
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
             parts = temp.split(" "); //разбиваем строку по пробелам
 
             if(!parts[parts.length - 7].contains(","))
@@ -52,7 +46,6 @@ public class Processor extends Element{
             line_index++; //индекс для следующей строки
         }
         this.setValue(this.getSum()); //установка итоговой суммы
-        System.out.println("set value as " + this.getSum());
         this.recordInDB();
     }
 
@@ -65,9 +58,9 @@ public class Processor extends Element{
 
     @Override
     public boolean recordInDB(){ //запись в БД
-        boolean result = false;
+        boolean drop = false, result = false;
         String table_name = "proc_info", checker = "select * from " + table_name;
-        int diff = 0, last_index = 0;
+        int diff = 0, last_index = 0, counter = 0, first_index = 0;
         try {
             Connection c = DriverManager.getConnection(this.getUrl(), this.getUser(), this.getPassword());
 
@@ -93,6 +86,13 @@ public class Processor extends Element{
                 rs = stmt.executeQuery(checker);
                 while(rs.next()) {
                     last_index = rs.getInt("id");
+                    counter++;
+                    if(counter == 1){
+                        first_index = last_index;
+                    }
+                }
+                if(first_index > last_index){
+                    stmt.executeUpdate("delete from " + table_name + " where id > " + 0 );
                 }
                 //System.out.println("last_id = " + last_index);
                 if(last_index > this.getMaxCount()){

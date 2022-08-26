@@ -1,0 +1,45 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Refresh" content="3" />
+  <meta charset="ISO-8859-1">
+  <title>CPU Occupancy</title>
+  <script
+          src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script type="text/javascript"
+          src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+<div align="center" style="width: 1000px;">
+  <h2>Curse work "Java-backend web application"</h2>
+  <div id="chart_div"></div>
+  <div id="container" style="width: 900px; height: 500px;"></div>
+</div>
+<script th:inline="javascript">
+        var cpu_occup = /*[[${cpu_occup}]]*/'noValue';
+        var cpu_max = /*[[${cpu_max}]]*/'noValue';
+        $(document).ready(function() {
+            google.charts.load('current', {
+                packages : [ 'corechart', 'line' ]
+            });
+            google.charts.setOnLoadCallback(drawChart);
+        });
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Date');
+            data.addColumn('number', 'Occupancy (%)');
+            data.addColumn('number', 'Max possible occupancy (%)');
+            Object.keys(cpu_occup).forEach(function(key) {
+                data.addRow([ key, cpu_occup[key], cpu_max[key]]);
+            });
+            var options = {
+                title : 'CPU Occupancy'
+            };
+            var chart = new google.visualization.LineChart(document.getElementById('container'));
+            chart.draw(data, options);
+        }
+    </script>
+</body>
+</html>

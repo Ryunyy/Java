@@ -103,7 +103,7 @@ public class Interface extends Element{
     public boolean recordInDB(){ //запись в бд
         boolean result = false;
         String table_name = "intfc_info", insert, checker = "select * from " + table_name;
-        int group = 0, diff = 0, last_group_index = 0;
+        int group = 0, diff = 0, last_group_index = 0, counter = 0, first_group_index = 0;
         try {
             Connection c = DriverManager.getConnection(this.getUrl(), this.getUser(), this.getPassword());
 
@@ -189,6 +189,13 @@ public class Interface extends Element{
                 rs = stmt.executeQuery(checker);
                 while(rs.next()) {
                     last_group_index = rs.getInt("group_num");
+                    counter++;
+                    if(counter == 1){
+                        first_group_index = last_group_index;
+                    }
+                }
+                if(first_group_index > last_group_index){
+                    stmt.executeUpdate("delete from " + table_name + " where id > " + 0 );
                 }
                 //System.out.println("last_group_id = " + last_group_index);
                 if(last_group_index > this.getMaxCount()){

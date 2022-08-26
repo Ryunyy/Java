@@ -64,7 +64,7 @@ public class Memory extends Element{
     public boolean recordInDB(){ //запись в бд
         boolean result = false;
         String table_name = "mem_info", checker = "select * from " + table_name;
-        int diff = 0, last_index = 0;
+        int diff = 0, last_index = 0, counter = 0, first_index = 0;
         try {
             Connection c = DriverManager.getConnection(this.getUrl(), this.getUser(), this.getPassword());
 
@@ -91,6 +91,13 @@ public class Memory extends Element{
                 rs = stmt.executeQuery(checker);
                 while(rs.next()) {
                     last_index = rs.getInt("id");
+                    counter++;
+                    if(counter == 1){
+                        first_index = last_index;
+                    }
+                }
+                if(first_index > last_index){
+                    stmt.executeUpdate("delete from " + table_name + " where id > " + 0 );
                 }
                 //System.out.println("last_id = " + last_index);
                 if(last_index > this.getMaxCount()){

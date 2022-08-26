@@ -1,0 +1,45 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Refresh" content="3" />
+  <meta charset="ISO-8859-1">
+  <title>RAM usage</title>
+  <script
+          src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script type="text/javascript"
+          src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+<div align="center" style="width: 1000px;">
+  <h2>Curse work "Java-backend web application"</h2>
+  <div id="chart_div"></div>
+  <div id="container" style="width: 900px; height: 500px;"></div>
+</div>
+<script th:inline="javascript">
+        var mem_usage = /*[[${mem_usage}]]*/'noValue';
+        var mem_total = /*[[${mem_total}]]*/'noValue';
+        $(document).ready(function() {
+            google.charts.load('current', {
+                packages : [ 'corechart', 'line' ]
+            });
+            google.charts.setOnLoadCallback(drawChart);
+        });
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Date');
+            data.addColumn('number', 'RAM used (MB)');
+            data.addColumn('number', 'RAM total (MB)');
+            Object.keys(mem_usage).forEach(function(key) {
+                data.addRow([ key, mem_usage[key], mem_total[key]]);
+            });
+            var options = {
+                title : 'Memory (RAM) usage'
+            };
+            var chart = new google.visualization.LineChart(document.getElementById('container'));
+            chart.draw(data, options);
+        }
+    </script>
+</body>
+</html>
