@@ -40,5 +40,7 @@ public class Core {
         intfc.setDate(current_time);
         intfc.grab();
         intfc.show();
+
+        System.out.println("-----------------------------------------------------");
     }
 }
