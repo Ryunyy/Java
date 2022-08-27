@@ -41,7 +41,7 @@ public class Processor extends Element{
             temp = lines.get(line_index); //копируем строку для ее разбиения
             parts = temp.split(" "); //разбиваем строку по пробелам
 
-            if(!parts[parts.length - 7].contains(","))
+            if(!parts[parts.length - 7].contains(",")&&(!parts[parts.length - 7].isEmpty())
                 this.sum_occupancy += Double.valueOf(parts[parts.length - 7]); //получаем нужное значение (из столбца) и суммируем его с предыдущими для подсчета общей загруженности CPU
             line_index++; //индекс для следующей строки
         }
