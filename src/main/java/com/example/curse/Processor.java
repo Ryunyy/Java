@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Processor extends Element{
 
     private String cmd_1 = "top -bn 1"; //командя для парсинга результатов
-    private String regex = "(\\D+\\d+){7}"+"(\\.)?\\d\\D+\\d+(\\.)?\\d"+"(\\D+\\d+){2}"+"(\\.)"+"(\\d+\\D+)"; //регулярка для получения результатов таблицы
+    private String regex = "(.*)"; //регулярка для получения результатов таблицы
     private double sum_occupancy = 0; //итоговая загруженность процессора
 
     public Processor(){
@@ -30,7 +30,7 @@ public class Processor extends Element{
     }
 
     public boolean check_part(String part){
-        if((!part.contains(","))&&(!part.isEmpty()))
+        if(part.contentEquals("R")||part.contentEquals("S")||part.contentEquals("I"))
             return true;
         else return false;
     }
@@ -38,9 +38,17 @@ public class Processor extends Element{
     public void pullValue(String temp){
         String[] parts; //массив частей, на которые была разбита строка
         parts = temp.split(" "); //разбиваем строку по пробелам
+        boolean next = false;
 
-        if(check_part(parts[parts.length - 7]))
-            this.sum_occupancy += Double.valueOf(parts[parts.length - 7]); //получаем нужное значение (из столбца) и суммируем его с предыдущими для подсчета общей загруженности CPU
+        for(int i = 0; i < parts.length; i++) {
+            if (check_part(parts[i])) {
+                while(!parts[i].contains(".")){
+                    i++;
+                }
+                if(i < parts.length)
+                    this.sum_occupancy += Double.valueOf(parts[i]); //получаем нужное значение (из столбца) и суммируем его с предыдущими для подсчета общей загруженности CPU
+            }
+        }
     }
 
     @Override
@@ -52,6 +60,10 @@ public class Processor extends Element{
 
         while(line_index < lines.size()){ //пока не дошли до конца вывода
             temp = lines.get(line_index); //копируем строку для ее разбиения
+            if(temp.contains("PID")){
+                line_index++;
+                temp = lines.get(line_index);
+            }
             pullValue(temp);
             line_index++; //индекс для следующей строки
         }

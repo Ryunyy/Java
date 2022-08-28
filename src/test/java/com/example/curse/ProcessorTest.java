@@ -18,18 +18,21 @@ class ProcessorTest {
     @Test
     void Checker(){
         int points = 0;
-        String test1 = ",", test2 = "", test3 = "12.5";
+        String test1 = "I", test2 = "S", test3 = "R", test4 = "123";
 
-        if(proc.check_part(test1) == false)
+        if(proc.check_part(test1) == true)
             points++;
 
-        if(proc.check_part(test2) == false)
+        if(proc.check_part(test2) == true)
             points++;
 
         if(proc.check_part(test3) == true)
             points++;
 
-        assertEquals(3, points);
+        if(proc.check_part(test4) == false)
+            points++;
+
+        assertEquals(4, points);
     }
 
     @Test
@@ -39,7 +42,7 @@ class ProcessorTest {
         if(proc.getCmd().equals("top -bn 1"))
             points++;
 
-        if(proc.getRegex().equals("(\\D+\\d+){7}"+"(\\.)?\\d\\D+\\d+(\\.)?\\d"+"(\\D+\\d+){2}"+"(\\.)"+"(\\d+\\D+)"))
+        if(proc.getRegex().equals("(.*)"))
             points++;
 
         assertEquals(2, points);
