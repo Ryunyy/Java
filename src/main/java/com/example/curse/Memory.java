@@ -39,7 +39,7 @@ public class Memory extends Element{
     }
 
     @Override
-    public void grab(){//вывод команды - одна строка, поэтому ищем циклом сразу в массиве частей
+    public void grab(boolean record){//вывод команды - одна строка, поэтому ищем циклом сразу в массиве частей
         ArrayList<String> parse_res; //массив строк для копирования результатов команды
         parse_res = this.getResult(); //копирование вывода команды
         double temp1, temp2; //вспомогательные переменные, нужны для округления полученных значений
@@ -57,7 +57,8 @@ public class Memory extends Element{
                 this.mb_total = Double.valueOf(temp);
             }
         }
-        this.recordInDB();
+        if(record)
+            this.recordInDB();
     }
 
     @Override

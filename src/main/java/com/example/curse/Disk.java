@@ -38,25 +38,49 @@ public class Disk extends Element{
         System.out.print(this.getName() + ": " + this.getUsed_rom() + " " + this.getMeasure() + " | Total: " + this.getTotal_rom() + " " + this.getMeasure() + " [" + this.getDate() + "]\n\n" );
     }
 
-    @Override
-    public void grab(){
-        double temp1, temp2; //переменные для округления
-        ArrayList<String> parse_res; //массмив строк для копирования результата (даже если результат - одна строка, нужен массив, ибо возвращается массив строк вывода. может быть одна, может несколько)
-        parse_res = this.getResult(); //копирование строк
-        String temp = ""; //строка для разбиения
-        String[] parts = parse_res.get(0).split(" "); //разбиение строки по пробелу
+    void pullValue(String parse, ArrayList<Double>res){
+        String[] parts = parse.split(" "); //разбиение строки по пробелу
         for(int i = 0;i < parts.length; i++) { //пока не конец массива с частями строки
             if(parts[i].length() > 1) { //если длина элемента более одного (необходимость из-за разного вывода в wsl и ubuntu server 18.04)
-                temp1 = Double.valueOf(parts[i]) / 1024 / 1024; //преобразование нужного элементка к double и перевод его значения в ГБ
-                temp2 = Double.valueOf(parts[i+1]) / 1024 / 1024; //преобразование нужного элементка к double и перевод его значения в ГБ
-                temp = String.format("%.2f", temp1); //округление
-                this.total_rom = Double.valueOf(temp); //установка значения
-                temp = String.format("%.2f", temp2); //округление
-                this.used_rom = Double.valueOf(temp); //установка значения
-                i = parts.length; //прерывание цикла, т.к. нам нужно только два значения
+                double val = (Double.valueOf(parts[i]) / 1024 / 1024);//преобразование нужного элементка к double и перевод его значения в ГБ
+                res.add(val);
             }
         }
-        this.recordInDB();
+        this.total_rom = res.get(0);//установка значения
+        this.used_rom = res.get(1);//установка значения
+    }
+    @Override
+    public void grab(boolean record){
+        ArrayList<Double> res = new ArrayList<>(); //переменные для округления
+        ArrayList<String> parse_res; //массмив строк для копирования результата (даже если результат - одна строка, нужен массив, ибо возвращается массив строк вывода. может быть одна, может несколько)
+        parse_res = this.getResult(); //копирование строк
+        pullValue(parse_res.get(0),res);
+
+        String temp = String.format("%.2f", this.getTotal_rom());
+        this.total_rom = Double.valueOf(temp);
+
+        temp = String.format("%.2f", this.getUsed_rom());
+        this.used_rom = Double.valueOf(temp);
+
+        if(record)
+            this.recordInDB();
+    }
+
+    public String cleanAll(int first_index, int last_index, String table_name){
+        if(first_index > last_index){
+            return "delete from " + table_name + " where id > " + 0;
+        }
+        return "";
+    }
+
+    public String cleanOne(int last_index, String table_name){
+        int diff = 0;
+        if(last_index > this.getMaxCount()){
+            diff = last_index - this.getMaxCount();
+            //System.out.println("del id < " + (diff+1));
+            return "delete from " + table_name + " where id < " + (diff + 1);
+        }
+        return "";
     }
 
     @Override
@@ -95,15 +119,9 @@ public class Disk extends Element{
                         first_index = last_index;
                     }
                 }
-                if(first_index > last_index){
-                    stmt.executeUpdate("delete from " + table_name + " where id > " + 0 );
-                }
+                stmt.executeUpdate(cleanAll(first_index,last_index,table_name));
                 //System.out.println("last_id = " + last_index);
-                if(last_index > this.getMaxCount()){
-                    diff = last_index - this.getMaxCount();
-                    //System.out.println("del id < " + (diff+1));
-                    stmt.executeUpdate("delete from " + table_name + " where id < " + (diff + 1));
-                }
+                stmt.executeUpdate(cleanOne(last_index,table_name));
                 stmt.close();
                 //System.out.println("Opened database successfully");
                 result = true;

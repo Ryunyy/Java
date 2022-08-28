@@ -106,7 +106,6 @@ public abstract class Element {
             System.out.print("parse unsuccessful");
         }
         filter(); //пропуск вывода через фильтр по регулярке
-
     }
 
     public void filter(){
@@ -116,6 +115,7 @@ public abstract class Element {
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(result.get(i)); //если строка подходит по регулярке
             if (matcher.find()) {
+                System.out.println(result.get(i));
                 res.add(result.get(i)); //добавляем ее в массив подходящих строк
             }
             else{
@@ -130,7 +130,7 @@ public abstract class Element {
         return Pattern.matches(regex, name);
     }
 
-    public abstract boolean recordInDB(); //запись в бд, переопределяемый
+    public abstract void grab(boolean record); //метод сбора данных. у каждого класса свой - поэтому было проще сделать его абстрактным
 
-    public abstract void grab(); //метод сбора данных. у каждого класса свой - поэтому было проще сделать его абстрактным
+    public abstract boolean recordInDB(); //запись в бд, переопределяемый
 }

@@ -31,7 +31,7 @@ public class Interface extends Element{
     }
 
     @Override
-    public void grab() {
+    public void grab(boolean record) {
         int_info.clear();
         int line_index = 0; //индекс текущей строки
         String temp; //строка для разбиения
@@ -73,7 +73,8 @@ public class Interface extends Element{
             }
             line_index++; //индекс следующей строки
         }
-        this.recordInDB();
+        if(record)
+            this.recordInDB();
     }
 
     public int getIndexOf(String name){
