@@ -38,7 +38,7 @@ public class Disk extends Element{
         System.out.print(this.getName() + ": " + this.getUsed_rom() + " " + this.getMeasure() + " | Total: " + this.getTotal_rom() + " " + this.getMeasure() + " [" + this.getDate() + "]\n\n" );
     }
 
-    void pullValue(String parse, ArrayList<Double>res){
+    public void pullValue(String parse, ArrayList<Double>res){
         String[] parts = parse.split(" "); //разбиение строки по пробелу
         for(int i = 0;i < parts.length; i++) { //пока не конец массива с частями строки
             if(parts[i].length() > 1) { //если длина элемента более одного (необходимость из-за разного вывода в wsl и ubuntu server 18.04)
@@ -56,10 +56,10 @@ public class Disk extends Element{
         parse_res = this.getResult(); //копирование строк
         pullValue(parse_res.get(0),res);
 
-        String temp = String.format("%.2f", this.getTotal_rom());
+        String temp = String.format("%.2f", this.getTotal_rom()); // округление
         this.total_rom = Double.valueOf(temp);
 
-        temp = String.format("%.2f", this.getUsed_rom());
+        temp = String.format("%.2f", this.getUsed_rom()); // округление
         this.used_rom = Double.valueOf(temp);
 
         if(record)

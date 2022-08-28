@@ -115,7 +115,6 @@ public abstract class Element {
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(result.get(i)); //если строка подходит по регулярке
             if (matcher.find()) {
-                System.out.println(result.get(i));
                 res.add(result.get(i)); //добавляем ее в массив подходящих строк
             }
             else{

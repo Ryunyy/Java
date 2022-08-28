@@ -30,6 +30,32 @@ public class Interface extends Element{
         this.setName("Interfaces TX/RX");
     }
 
+    public String getIntName(String temp){
+        Pattern pattern = Pattern.compile(regexName); //если текущая строка содержит имя интерфейса
+        Matcher matcher = pattern.matcher(temp);
+        String[] parts; //массив для частей строки
+        if(matcher.find()){
+            parts = temp.split(":"); //разбиваем строку по :
+            return parts[0]; //возвращение имени
+        }
+        return "no name";
+    }
+
+    public String getRX_TX_FromLine(String temp, String reg){
+        Pattern pattern = Pattern.compile(reg); //если строка содержит rx
+        Matcher matcher = pattern.matcher(temp);
+        String[] parts;
+        if(matcher.find()){
+            parts = temp.split(" "); //разбивем по пробелу
+            for(int i = 0; i < parts.length; i++){
+                if(parts[i].contains("bytes")){ //ищем среди частей слово
+                    return parts[i+1]; //возвращаем значение байтов в виде строки
+                }
+            }
+        }
+        return "no value";
+    }
+
     @Override
     public void grab(boolean record) {
         int_info.clear();
@@ -42,35 +68,15 @@ public class Interface extends Element{
         while(line_index < lines.size()){ //пока не конец вывода
             temp = lines.get(line_index); //копируем текущую строку
 
-            Pattern pattern = Pattern.compile(regexName); //если текущая строка содержит имя интерфейса
-            Matcher matcher = pattern.matcher(temp);
-            if(matcher.find()){
-                parts = temp.split(":"); //разбиваем строку по :
-                int_info.add(new Intfc_info(parts[0])); //создаем объекст класса с именем, которае лежив в частях строки
-            }
+            if(getIntName(temp) != "no name")
+                int_info.add(new Intfc_info(getIntName(temp))); //создаем объекст класса с именем, которае лежив в частях строки
 
+            if(getRX_TX_FromLine(temp, regexRX) != "no value")
+                int_info.get(int_info.size()-1).setRxAll(Integer.valueOf(getRX_TX_FromLine(temp, regexRX))); //добавляем в последний созданый экземпляр класса интерфейсов значение перед найденным словом, приведенное к int
 
-            pattern = Pattern.compile(regexRX); //если строка содержит rx
-            matcher = pattern.matcher(temp);
-            if(matcher.find()){
-                parts = temp.split(" "); //разбивем по пробелу
-                for(int i = 0; i < parts.length; i++){
-                    if(parts[i].contains("bytes")){ //ищем среди частей слово
-                        int_info.get(int_info.size()-1).setRxAll(Integer.valueOf(parts[i+1])); //добавляем в последний созданый экземпляр класса интерфейсов значение перед найденным словом, приведенное к int
-                    }
-                }
-            }
+            if(getRX_TX_FromLine(temp, regexTX) != "no value")
+                int_info.get(int_info.size()-1).setTxAll(Integer.valueOf(getRX_TX_FromLine(temp, regexTX))); //добавляем в последний созданый экземпляр класса интерфейсов значение перед найденным словом, приведенное к int
 
-            pattern = Pattern.compile(regexTX); //если строка содержит tx
-            matcher = pattern.matcher(temp);
-            if(matcher.find()){
-                parts = temp.split(" "); //разбивем по пробелу
-                for(int i = 0; i < parts.length; i++){
-                    if(parts[i].contains("bytes")){ //ищем среди частей слово
-                        int_info.get(int_info.size()-1).setTxAll(Integer.valueOf(parts[i+1])); //добавляем в последний созданый экземпляр класса интерфейсов значение перед найденным словом, приведенное к int
-                    }
-                }
-            }
             line_index++; //индекс следующей строки
         }
         if(record)
@@ -100,11 +106,28 @@ public class Interface extends Element{
         }
     }
 
+    public String cleanOne(int last_group_index, String table_name){
+        int diff = 0;
+        if(last_group_index > this.getMaxCount()){
+            diff = last_group_index - this.getMaxCount();
+            //System.out.println("del id < " + (diff+1));
+            return ("delete from " + table_name + " where group_num < " + (diff + 1));
+        }
+        return "";
+    }
+
+    public String cleanAll(int first_group_index, int last_group_index, String table_name){
+        if(first_group_index > last_group_index){
+            return ("delete from " + table_name + " where id > " + 0 );
+        }
+        return "";
+    }
+
     @Override
     public boolean recordInDB(){ //запись в бд
         boolean result = false;
         String table_name = "intfc_info", insert, checker = "select * from " + table_name;
-        int group = 0, diff = 0, last_group_index = 0, counter = 0, first_group_index = 0;
+        int group = 0, last_group_index = 0, counter = 0, first_group_index = 0;
         try {
             Connection c = DriverManager.getConnection(this.getUrl(), this.getUser(), this.getPassword());
 
@@ -195,15 +218,9 @@ public class Interface extends Element{
                         first_group_index = last_group_index;
                     }
                 }
-                if(first_group_index > last_group_index){
-                    stmt.executeUpdate("delete from " + table_name + " where id > " + 0 );
-                }
+                stmt.executeUpdate(cleanAll(first_group_index,last_group_index,table_name) );
                 //System.out.println("last_group_id = " + last_group_index);
-                if(last_group_index > this.getMaxCount()){
-                    diff = last_group_index - this.getMaxCount();
-                    //System.out.println("del id < " + (diff+1));
-                    stmt.executeUpdate("delete from " + table_name + " where group_num < " + (diff + 1));
-                }
+                stmt.executeUpdate(cleanOne(last_group_index,table_name));
                 stmt.close();
                 //System.out.println("Opened database successfully");
                 result = true;
