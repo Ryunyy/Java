@@ -26,8 +26,9 @@
         1.  Наличие на ОС СУБД PostgreSQL версии не ниже 10, JVM с Java 11.
         2.  Создать пользователя "tester" с паролем "qwerty" с возможностью входа, создания и изменения БД.
         3.  Создать БД "parse_res" с владельцем "tester".
-        4.  Скачать проект: git clone http://github.com/Ryunyy/Java.git
-        5.  Перейти в директорию проекта и выполнить команду "chmod +x mvnw", а затем "./mvnw spring-boot:run"
+        4.  Запустить БД PostgreSQL командой "sudo service postgresql start"
+        5.  Скачать проект: git clone http://github.com/Ryunyy/Java.git
+        6.  Перейти в директорию проекта и выполнить команду "chmod +x mvnw", а затем "./mvnw spring-boot:run"
         
         Maven скачает необходимые зависимости, будет запущен спринг, локальный сервер tomcat и на нем будут отображаться
         графики отслеживаемых ресурсов. Для перехода на страницу, введите в поисковой строке "http://localhost:8080/".
